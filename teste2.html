@@ -1,0 +1,79 @@
+<!-- 2) Dado a sequência de Fibonacci, onde se inicia por 0 e 1 e o próximo valor sempre será a soma dos 2 valores anteriores
+(exemplo: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34...), escreva um programa na linguagem que desejar onde,
+informado um número, ele calcule a sequência de Fibonacci e retorne uma mensagem avisando se o número
+informado pertence ou não a sequência. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste 2</title>
+  </head>
+  <body>
+    <h1>Fibonacci</h1>
+    <p id="fibonacciSeries"></p>
+    <p id="fibonacciValue"></p>
+    <p id="belongsSequence"></p>
+  </body>
+  <script>
+    let lastNumber = 0;
+    let nextNumber = 1;
+    let currentNumber = 0;
+    let fibonacciSeries = [];
+    let value = 0;
+
+    let loop = true;
+
+    while (loop) {
+      value = Number(
+        prompt(`
+            FIBONACCI
+
+            Informe um número
+        `)
+      );
+
+      const onlyNumber = /^[0-9]+$/;
+
+      if (!onlyNumber.test(value)) {
+        alert("Você deve inserir apenas números");
+        continue;
+      } else {
+        loop = false;
+      }
+    }
+
+    const fibonacci = () => {
+      for (let i = 0; i < value; i++) {
+        fibonacciSeries.push(lastNumber);
+        currentNumber = lastNumber + nextNumber;
+        lastNumber = nextNumber;
+        nextNumber = currentNumber;
+      }
+
+      fibonacciSeries.push(lastNumber);
+    };
+
+    fibonacci();
+
+    document.getElementById(
+      "fibonacciSeries"
+    ).textContent = `Série da fibonacci: [${fibonacciSeries}]`;
+
+    document.getElementById(
+      "fibonacciValue"
+    ).textContent = `A fibonacci de ${value} é ${lastNumber}`;
+
+    found = fibonacciSeries.find((number) => number === value);
+
+    found || found === 0
+      ? (document.getElementById(
+          "belongsSequence"
+        ).textContent = `O número ${value} pertence a sequência de fibonacci!`)
+      : (document.getElementById(
+          "belongsSequence"
+        ).textContent = `O número ${value} NÃO pertence a sequência de fibonacci!`);
+  </script>
+</html>

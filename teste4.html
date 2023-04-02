@@ -1,0 +1,75 @@
+<!-- 4) Dado o valor de faturamento mensal de uma distribuidora, detalhado por estado:
+
+SP – R$67.836,43
+RJ – R$36.678,66
+MG – R$29.229,88
+ES – R$27.165,48
+Outros – R$19.849,53
+
+Escreva um programa na linguagem que desejar onde calcule o percentual de representação que cada
+estado teve dentro do valor total mensal da distribuidora. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste 4</title>
+  </head>
+  <body></body>
+  <script>
+    const data = [
+      {
+        UF: "SP",
+        monthInvoincing: 67.83643,
+      },
+      {
+        UF: "RJ",
+        monthInvoincing: 36.67866,
+      },
+      {
+        UF: "MG",
+        monthInvoincing: 29.22988,
+      },
+      {
+        UF: "ES",
+        monthInvoincing: 27.16548,
+      },
+      {
+        UF: "Outros",
+        monthInvoincing: 19.84953,
+      },
+    ];
+
+    const initialValue = 0;
+
+    const totalInvoicing = data.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.monthInvoincing,
+      initialValue
+    );
+
+    const percentage = (monthInvoincing, totalInvoicing) => {
+      return ((monthInvoincing / totalInvoicing) * 100).toFixed(2);
+    };
+
+    data.forEach((item) => {
+      let p = document.createElement("p");
+
+      if (item.UF === "Outros") {
+        document.body.appendChild(p).textContent = `
+					Outros estados apresentaram ${percentage(
+						item.monthInvoincing,
+						totalInvoicing
+        )}% do valor total mensal da distribuidora.`;
+      } else {
+        document.body.appendChild(p).textContent = `
+					O estado ${item.UF} apresentou ${percentage(
+						item.monthInvoincing,
+						totalInvoicing
+        )}% do valor total mensal da distribuidora.`;
+      }
+    });
+
+  </script>
+</html>

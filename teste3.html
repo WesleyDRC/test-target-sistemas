@@ -1,0 +1,85 @@
+<!-- 3) Dado um vetor que guarda o valor de faturamento diário de uma distribuidora,
+faça um programa, na linguagem que desejar, que calcule e retorne:
+• O menor valor de faturamento ocorrido em um dia do mês;
+• O maior valor de faturamento ocorrido em um dia do mês;
+• Número de dias no mês em que o valor de faturamento diário foi superior à média mensal.
+
+IMPORTANTE:
+a) Usar o json ou xml disponível como fonte dos dados do faturamento mensal;
+b) Podem existir dias sem faturamento, como nos finais de semana e feriados.
+Estes dias devem ser ignorados no cálculo da média; -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste 3</title>
+  </head>
+  <body>
+    <h1>Distribuidora</h1>
+    <p id="lowerValueMonth"></p>
+    <p id="highestValueMonth"></p>
+    <p id="aboveAverageDays"></p>
+  </body>
+  <script type="module" defer>
+    import data from "./dados.json" assert { type: "json" };
+
+    const initialValue = 0;
+    let currentValue = 0;
+    let lowerValueMonth = data[0].valor;
+    let highestValueMonth = 0;
+    let aboveAverageDays = 0;
+
+    function formatPrice(value) {
+      return value.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      });
+    }
+
+    const daysWithInvoicing = data.filter((invoicing) => {
+      return invoicing.valor !== 0;
+    });
+
+    const totalInvoicing = daysWithInvoicing.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.valor,
+      initialValue
+    );
+
+    const monthlyAverage = totalInvoicing / daysWithInvoicing.length;
+
+    data.forEach((invoicing) => {
+      currentValue = invoicing.valor;
+
+      if (currentValue > highestValueMonth) {
+        highestValueMonth = invoicing.valor;
+      }
+
+      if (currentValue <= lowerValueMonth) {
+        lowerValueMonth = invoicing.valor;
+      }
+
+      if (currentValue > monthlyAverage) {
+        aboveAverageDays += 1;
+      }
+    });
+
+    document.getElementById(
+      "lowerValueMonth"
+    ).textContent = `Menor valor de faturamento ocorrido em um dia do mês: ${formatPrice(
+      lowerValueMonth
+    )}`;
+
+    document.getElementById(
+      "highestValueMonth"
+    ).textContent = `Maior valor de faturamento ocorrido em um dia do mês: ${formatPrice(
+      highestValueMonth
+    )}`;
+
+    document.getElementById(
+      "aboveAverageDays"
+    ).textContent = `Total de dias em que o valor de faturamento diário foi superior à média mensal: ${aboveAverageDays}`;
+  </script>
+</html>
